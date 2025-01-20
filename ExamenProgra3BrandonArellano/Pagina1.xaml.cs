@@ -3,7 +3,7 @@ using ExamenProgra3BrandonArellano.Models;
 
 namespace ExamenProgra3BrandonArellano.Views
 {
-    public partial class BuscarPage : ContentPage
+    public partial class Pagina1 : ContentPage
     {
         private readonly BrandonApi _api;
         private readonly BrandonSqlite _baseDatos;
@@ -27,7 +27,6 @@ namespace ExamenProgra3BrandonArellano.Views
 
             try
             {
-                // Consultar el país desde la API
                 var pais = await _api.TenerNombre(nombrePais);
 
                 if (pais != null)
@@ -36,7 +35,6 @@ namespace ExamenProgra3BrandonArellano.Views
                                           $"Región: {pais.region}\n" +
                                           $"Mapa: {pais.maps.googleMaps}";
 
-                    // Guardar en la base de datos
                     await _baseDatos.Guardar(pais);
 
                     await DisplayAlert("Éxito", "El país ha sido guardado correctamente.", "OK");
@@ -46,9 +44,9 @@ namespace ExamenProgra3BrandonArellano.Views
                     await DisplayAlert("Error", "No se encontró el país.", "OK");
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                await DisplayAlert("Error", $"Ocurrió un error: {ex.Message}", "OK");
+                throw; 
             }
         }
 
