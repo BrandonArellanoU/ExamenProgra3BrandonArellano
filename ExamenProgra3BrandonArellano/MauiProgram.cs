@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SQLite;
 
 namespace ExamenProgra3BrandonArellano
 {
@@ -19,6 +20,8 @@ namespace ExamenProgra3BrandonArellano
     		builder.Logging.AddDebug();
 #endif
 
+
+            
             return builder.Build();
         }
     }

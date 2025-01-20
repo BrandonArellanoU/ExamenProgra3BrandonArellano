@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace ExamenProgra3BrandonArellano.Repository
 {
-    internal class BrandonApi
+    public class BrandonApi
     {
+
+
     }
 }
