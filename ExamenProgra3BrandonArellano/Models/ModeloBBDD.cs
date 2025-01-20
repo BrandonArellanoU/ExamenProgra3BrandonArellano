@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using SQLite;
 
 namespace ExamenProgra3BrandonArellano.Models
 {
-    internal class ModeloBBDD
+    public class ModeloBBDD
     {
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+        public string NombreOficial { get; set; }
+        public string Region { get; set; }
+        public string LinkGoogleMaps { get; set; }
+        public string Usuario { get; set; }
+
     }
 }
