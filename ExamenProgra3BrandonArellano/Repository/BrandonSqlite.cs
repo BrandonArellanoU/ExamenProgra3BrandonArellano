@@ -1,9 +1,5 @@
 ﻿using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static ExamenProgra3BrandonArellano.Models.BrandonModel;
 
 namespace ExamenProgra3BrandonArellano.Repository 
 {
@@ -12,10 +8,24 @@ namespace ExamenProgra3BrandonArellano.Repository
         private readonly string _dbPath = Path.Combine(FileSystem.AppDataDirectory, "ExamP3.db3");
         private SQLiteConnection _connection;
 
-    }
+        private static string enlace = "https://restcountries.com/v3.1/name/";
 
-    public init()
-        {
-            _connection = new SQLiteConnection(_dbPath);    
-        }
+        public string RespuestaApi(string pais)
+            {
+            string url = $"enlace"+pais;
+            var cliente = new HttpClient();
+
+            NativeName recuest = new NativeName
+            {
+                Country = new List<Country>
+                {
+                    new Country
+                    {
+
+                    }
+                }
+            };
+
+            }
+    }
 }
