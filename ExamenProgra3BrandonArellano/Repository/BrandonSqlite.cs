@@ -1,31 +1,28 @@
 ﻿using SQLite;
 using static ExamenProgra3BrandonArellano.Models.BrandonModel;
 
-namespace ExamenProgra3BrandonArellano.Repository 
+namespace ExamenProgra3BrandonArellano.Repository
 {
     public class BrandonSqlite
     {
-        private readonly string _dbPath = Path.Combine(FileSystem.AppDataDirectory, "ExamP3.db3");
-        private SQLiteConnection _connection;
+        private readonly SQLiteAsyncConnection _database;
 
-        private static string enlace = "https://restcountries.com/v3.1/name/";
+        public BrandonSqlite()
+        {
+            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "ExamP3.db3");
+            _database = new SQLiteAsyncConnection(dbPath);
 
-        public string RespuestaApi(string pais)
-            {
-            string url = $"enlace"+pais;
-            var cliente = new HttpClient();
+            _database.CreateTableAsync<Country>().Wait();
+        }
 
-            NativeName recuest = new NativeName
-            {
-                Country = new List<Country>
-                {
-                    new Country
-                    {
+        public Task<int> Guardar(Country country)
+        {
+            return _database.InsertAsync(country);
+        }
 
-                    }
-                }
-            };
-
-            }
+        public Task<List<Country>> ListarPaises()
+        {
+            return _database.Table<Country>().ToListAsync();
+        }
     }
 }

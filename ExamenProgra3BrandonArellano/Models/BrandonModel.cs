@@ -1,25 +1,11 @@
-﻿
-namespace ExamenProgra3BrandonArellano.Models
+﻿namespace ExamenProgra3BrandonArellano.Models
 {
     public class BrandonModel
     {
-
-        public class NativeName
-        {
-            public spa spa { get; set; }
-        }
-
-        public class spa
-        {
-            public string official { get; set; }
-            public string common { get; set; }
-        }
-
         public class Name
         {
             public string common { get; set; }
             public string official { get; set; }
-            public NativeName nativeName { get; set; }
         }
 
         public class Maps
