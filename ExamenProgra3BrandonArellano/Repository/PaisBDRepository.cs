@@ -1,12 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExamenProgra3BrandonArellano.Models;
+using SQLite;
+using System.Collections.ObjectModel;
+
 
 namespace ExamenProgra3BrandonArellano.Repository
 {
-    internal class PaisBDRepository
+    public class PaisBDRepository
     {
+        private readonly SQLiteConnection _database;
+
+        public PaisBDRepository(string dbPath)
+        {
+            _database = new SQLiteConnection(dbPath);
+            _database.CreateTable<ModeloBBDD>();
+        }
+
+        public void GuardarPais(ModeloBBDD pais)
+        {
+            _database.Insert(pais);
+        }
+
+        public ObservableCollection<ModeloBBDD> ObtenerPaises()
+        {
+            return new ObservableCollection<ModeloBBDD>(_database.Table<ModeloBBDD>().ToList());
+        }
+
     }
 }
