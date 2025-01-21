@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ExamenProgra3BrandonArellano.ViewModel"
+             x:Class="ExamenProgra3BrandonArellano.ListaPaisesPage"
+             Title="Países Consultados">
+    <ContentPage.BindingContext>
+        <local:ListaPaisesViewModel />
+    </ContentPage.BindingContext>
+    <StackLayout Padding="20">
+        <ListView x:Name="barellano_listView" ItemsSource="{Binding Paises}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="{Binding NombreOficial}" />
+                            <Label Text="{Binding Region}" />
+                            <Label Text="{Binding LinkGoogleMaps}" />
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </StackLayout>
+</ContentPage>

@@ -3,9 +3,9 @@ namespace ExamenProgra3BrandonArellano.Models
 {
     public class ModeloAPI
     {
-        public Name name { get; set; }
-        public string region { get; set; }
-        public Maps maps { get; set; }
+        public Name? name { get; set; }
+        public string? region { get; set; }
+        public Maps? maps { get; set; }
     }
     public class Name
     {

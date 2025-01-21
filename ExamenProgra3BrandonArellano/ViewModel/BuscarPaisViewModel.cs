@@ -1,80 +1,56 @@
 ﻿using ExamenProgra3BrandonArellano.Models;
 using ExamenProgra3BrandonArellano.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace ExamenProgra3BrandonArellano.ViewModel
 {
     public class BuscarPaisViewModel : BindableObject
     {
+        public BuscarPaisViewModel()
+        {
+            _apiRepo = new PaisApiRepository();
+            _bdRepo = new PaisBDRepository("brandonAre_bd.db");
+        }
+
         private string _nombrePais;
         private string _resultado;
-        private readonly PaisApiRepository _apiRepositorio;
-        private readonly PaisBDRepository _bdRepositorio;
+        private readonly PaisApiRepository _apiRepo;
+        private readonly PaisBDRepository _bdRepo;
 
         public string NombrePais
         {
             get => _nombrePais;
-            set
-            {
-                _nombrePais = value;
-                OnPropertyChanged();
-            }
+            set { _nombrePais = value; OnPropertyChanged(); }
         }
 
         public string Resultado
         {
             get => _resultado;
-            set
-            {
-                _resultado = value;
-                OnPropertyChanged();
-            }
+            set { _resultado = value; OnPropertyChanged(); }
         }
 
-        public Command BuscarCommand { get; }
-        public Command LimpiarCommand { get; }
+        public ICommand BuscarCommand => new Command(async () => await BuscarPaisAsync());
+        public ICommand LimpiarCommand => new Command(() => NombrePais = string.Empty);
 
-        public BuscarPaisViewModel(PaisApiRepository apiRepositorio, PaisBDRepository bdRepositorio)
+        private async Task BuscarPaisAsync()
         {
-            _apiRepositorio = apiRepositorio;
-            _bdRepositorio = bdRepositorio;
-
-            BuscarCommand = new Command(async () => await BuscarPais());
-            LimpiarCommand = new Command(() => NombrePais = string.Empty);
-        }
-
-        private async Task BuscarPais()
-        {
-            if (string.IsNullOrWhiteSpace(NombrePais))
-            {
-                Resultado = "Por favor, ingresa un nombre válido.";
-                return;
-            }
-
             try
             {
-                var paisAPI = await _apiRepositorio.ObtenerPais(NombrePais);
-                if (paisAPI != null)
+                var pais = await _apiRepo.ObtenerPais(NombrePais);
+                if (pais != null)
                 {
-                    var pais = new ModeloBBDD
+                    Resultado = $"País encontrado: {pais.name.official}";
+                    _bdRepo.GuardarPais(new ModeloBBDD
                     {
-                        NombreOficial = paisAPI.name.official,
-                        Region = paisAPI.region,
-                        LinkGoogleMaps = paisAPI.maps.googleMaps,
-                        Usuario = "UsuarioEjemplo"
-                    };
-
-                    _bdRepositorio.GuardarPais(pais);
-
-                    Resultado = $"País encontrado:\nNombre: {pais.NombreOficial}, Región: {pais.Region}, Mapa: {pais.LinkGoogleMaps}";
+                        NombreOficial = pais.name.official,
+                        Region = pais.region,
+                        LinkGoogleMaps = pais.maps.googleMaps,
+                        Usuario = "Scordova"
+                    });
                 }
                 else
                 {
-                    Resultado = "No se encontró ningún país con ese nombre.";
+                    Resultado = "País no encontrado.";
                 }
             }
             catch (Exception ex)
@@ -82,5 +58,6 @@ namespace ExamenProgra3BrandonArellano.ViewModel
                 Resultado = $"Error: {ex.Message}";
             }
         }
+
     }
 }
